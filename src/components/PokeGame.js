@@ -3,11 +3,12 @@ import axios from "axios";
 import styled from "styled-components";
 import bgr from "../assets/bck.png";
 import bgrCard from "../assets/bckCard.png";
-
+import ReactCardFlip from "react-card-flip";
+import backCard from "../assets/backside.png";
 const PokeGame = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pokemon, setPokemon] = useState([]);
-
+  const [isFlipped, setIsFlipped] = useState(false);
   let randomId = Math.floor(Math.random() * 10) + 1;
   useEffect(() => {
     const grabPokemon = async () => {
@@ -36,31 +37,40 @@ const PokeGame = () => {
       height = "",
       weight = "",
     } = data;
-
+    const handleClick = (e) => {
+      e.preventDefault();
+      setIsFlipped(!isFlipped);
+    };
     return (
-      <Card>
-        <Name> {name}</Name>
-        <CardBackground></CardBackground>
+      <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
+        <Card onClick={handleClick}>
+          <img src={backCard} alt="back side card"></img>
+        </Card>
 
-        <CardImage>
-          <img
-            src={other["official-artwork"]["front_default"]}
-            alt="poke"
-          ></img>
-        </CardImage>
+        <Card onClick={handleClick}>
+          <Name> {name}</Name>
+          <CardBackground></CardBackground>
 
-        <Info>
-          <p>
-            Experience: <span className="item">{base_experience}</span>
-          </p>
-          <p>
-            Height: <span className="item">{height}</span>
-          </p>
-          <p>
-            Weight: <span className="item">{weight}</span>
-          </p>
-        </Info>
-      </Card>
+          <CardImage>
+            <img
+              src={other["official-artwork"]["front_default"]}
+              alt="poke"
+            ></img>
+          </CardImage>
+
+          <Info>
+            <p>
+              Experience: <span className="item">{base_experience}</span>
+            </p>
+            <p>
+              Height: <span className="item">{height}</span>
+            </p>
+            <p>
+              Weight: <span className="item">{weight}</span>
+            </p>
+          </Info>
+        </Card>
+      </ReactCardFlip>
     );
   };
 
@@ -74,6 +84,7 @@ const Card = styled.div`
   position: relative;
   background-image: url(${bgrCard});
 `;
+
 const Name = styled.p`
   position: absolute;
   width: 107px;

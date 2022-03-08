@@ -30,7 +30,7 @@ const Deck = styled.div`
   width: 1712px;
   height: 1549px;
   position: relative;
-  margin: 10%;
+  margin: 5% 0 0 5%;
 `;
 const PokeCard = styled.div`
   width: 1480px;
@@ -43,7 +43,7 @@ const PokeCard = styled.div`
   top: 855px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.45));
   .items {
-    margin: 1rem;
+    margin: 1.5rem;
   }
 `;
 const Button = styled.button`
@@ -57,5 +57,8 @@ const Button = styled.button`
   font-size: 1.5rem;
   font-family: Rosario;
   font-style: normal;
+  position: absolute;
+  bottom: 2rem;
+  left: 45%;
 `;
 export default App;
