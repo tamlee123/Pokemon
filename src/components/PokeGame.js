@@ -9,7 +9,7 @@ const PokeGame = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pokemon, setPokemon] = useState([]);
   const [isFlipped, setIsFlipped] = useState(false);
-  let randomId = Math.floor(Math.random() * 10) + 1;
+  let randomId = Math.floor(Math.random() * 500) + 1;
   useEffect(() => {
     const grabPokemon = async () => {
       setIsLoading(true);
@@ -41,6 +41,7 @@ const PokeGame = () => {
       e.preventDefault();
       setIsFlipped(!isFlipped);
     };
+
     return (
       <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
         <Card onClick={handleClick}>
