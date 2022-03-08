@@ -1,37 +1,84 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import CardPoke from "./CardPoke";
+// import PokeGame from './PokeGame_orig';
+import styled from "styled-components";
 
-function PokeGame(props) {
-  // const id = [];
-  // const limit = 5;
-  // [1,2,3,4,5]
-  // const id = Math.floor(Math.random() * 500) + 1;
+const Name = styled.p`
+  width: 107px;
+  height: 29px;
+  left: 29px;
+  top: 25px;
+  font-family: Rosario;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 29px;
+  color: #573903;
+`;
+const Card = styled.div`
+  width: 280px;
+  height: 388px;
+  border: none;
+  border-radius: 5px;
+`;
+const CardImage = styled.div`
+  width: 224px;
+  height: 199px;
+  left: 33px;
+  top: 53px;
+  margin: auto;
+  > img {
+    width: 224px;
+    height: 199px;
+  }
+`;
+const PokeGame = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [pokemon, setPokemon] = useState([]);
+
   useEffect(() => {
-    async function getPokemon() {
-      try {
-        const res = await axios.get("https://pokeapi.co/api/v2/pokemon/1");
-        setPokemon(res.data);
-        console.log(res);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    getPokemon();
+    const grabPokemon = async () => {
+      setIsLoading(true);
+      const { data } = await axios.get("https://pokeapi.co/api/v2/pokemon/5");
+      setPokemon(data);
+      setIsLoading(false);
+    };
+
+    grabPokemon().catch(console.error);
   }, []);
 
-  return (
+  const renderLoading = (
     <div>
-      <CardPoke
-        name={pokemon.name}
-        image={pokemon["sprites"]["other"]["official-artwork"]["front_default"]}
-        experience={pokemon.base_experience}
-        height={pokemon.height}
-        weight={pokemon.weight}
-      />
+      <p>Loading...</p>
     </div>
   );
-}
+
+  const renderPokemon = (data) => {
+    const {
+      name = "",
+      base_experience = "",
+      sprites: { other } = "",
+      height = "",
+      weight = "",
+    } = data;
+
+    return (
+      <Card>
+        <Name> {name}</Name>
+        <CardImage>
+          <img
+            src={other["official-artwork"]["front_default"]}
+            alt="poke"
+          ></img>
+        </CardImage>
+        <p>base_experience: {base_experience}</p>
+        <p>height:{height}</p>
+        <p>weight: {weight}</p>
+      </Card>
+    );
+  };
+
+  return <>{isLoading ? renderLoading : renderPokemon(pokemon)}</>;
+};
 
 export default PokeGame;
