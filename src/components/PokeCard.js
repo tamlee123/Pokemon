@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import bgr from "../assets/bck.png";
+import bgrImage from "../assets/bck.png";
 import bgrCard from "../assets/bckCard.png";
 import ReactCardFlip from "react-card-flip";
-import backCard from "../assets/backside.png";
+import frontCard from "../assets/frontside.png";
 
 function PokeCard(props) {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -16,7 +16,7 @@ function PokeCard(props) {
   return (
     <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
       <Card onClick={handleClick}>
-        <img src={backCard} alt="back side card"></img>
+        <img src={frontCard} alt="front side card"></img>
       </Card>
 
       <Card onClick={handleClick}>
@@ -66,7 +66,7 @@ const Name = styled.p`
 const CardBackground = styled.div`
   width: 205px;
   height: 139px;
-  background: url(${bgr});
+  background: url(${bgrImage});
   mix-blend-mode: multiply;
   border: 10px solid #ffffff;
   filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.25))
