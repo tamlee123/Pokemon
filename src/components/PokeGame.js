@@ -3,39 +3,51 @@ import axios from "axios";
 import PokeCard from "./PokeCard";
 import styled from "styled-components";
 
+const API_BASE_URL = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=500";
 function PokeGame() {
   const [isLoading, setIsLoading] = useState(true);
   const [pokemon, setPokemon] = useState([]);
+  const [deck, setDeck] = useState([]);
 
-  let randomId = Array.from(
-    { length: 5 },
-    () => Math.floor(Math.random() * 500) + 1
-  );
-  let endpoints = [
-    `https://pokeapi.co/api/v2/pokemon/${randomId[0]}`,
-    `https://pokeapi.co/api/v2/pokemon/${randomId[1]}`,
-    `https://pokeapi.co/api/v2/pokemon/${randomId[2]}`,
-    `https://pokeapi.co/api/v2/pokemon/${randomId[3]}`,
-    `https://pokeapi.co/api/v2/pokemon/${randomId[4]}`,
-  ];
+  //fetch data that includes 500 url of pokemon
   useEffect(() => {
-    const grabPokemon = async () => {
-      setIsLoading(true);
+    async function pokemons() {
       try {
-        Promise.all(endpoints.map((endpoint) => axios.get(endpoint))).then(
-          (response) => {
-            const data = response.map((p) => p.data);
-            setPokemon(data);
-            setIsLoading(false);
-            console.log(data);
-          }
-        );
+        const res = await axios.get(API_BASE_URL);
+        setDeck(res.data.results);
+        console.log(res.data.results);
       } catch (error) {
         console.log(error);
       }
-    };
-    grabPokemon();
+    }
+    pokemons();
   }, []);
+  //pick 5 random urls in the 500
+  let endpoints = [];
+  let poke_url = deck.map((m) => m.url); //return 500 urls in an array
+  while (endpoints.length <= 4) {
+    let randIdx = Math.floor(Math.random() * poke_url.length);
+    //slice the url of that random idx and push it in the array endpoints
+    let randPokemon = poke_url.slice(randIdx, randIdx + 1);
+    endpoints.push(randPokemon);
+  }
+  console.log(endpoints);
+  //fetch data for 5 randoms pokemon
+  const grabPokemon = async () => {
+    setIsLoading(true);
+    try {
+      await Promise.all(endpoints.map((endpoint) => axios.get(endpoint))).then(
+        (response) => {
+          const data = response.map((p) => p.data);
+          setPokemon(data);
+          setIsLoading(false);
+          console.log(data);
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const renderLoading = (
     <div>
@@ -45,7 +57,8 @@ function PokeGame() {
 
   return (
     <Deck>
-      <Button>Deal Card</Button>
+      <Button onClick={grabPokemon}>Deal Card</Button>
+
       {isLoading ? (
         renderLoading
       ) : (
@@ -72,7 +85,10 @@ const Deck = styled.div`
   width: 1712px;
   height: 1549px;
   position: relative;
-  margin: 5% 0 0 5%;
+  margin: auto;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border: 1px solid green;
 `;
 const Display = styled.div`
   width: 1480px;
