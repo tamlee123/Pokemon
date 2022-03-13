@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PokeCard from "./PokeCard";
 import styled from "styled-components";
+import Loading from "./Loading";
 
 const API_BASE_URL = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=500";
 function PokeGame() {
@@ -49,18 +50,12 @@ function PokeGame() {
     }
   };
 
-  const renderLoading = (
-    <div>
-      <p>Loading...</p>
-    </div>
-  );
-
   return (
     <Deck>
       <Button onClick={grabPokemon}>Deal Card</Button>
 
       {isLoading ? (
-        renderLoading
+        <Loading />
       ) : (
         <Display>
           {pokemon.map((pm) => (
