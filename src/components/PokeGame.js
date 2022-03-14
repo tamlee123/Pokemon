@@ -16,7 +16,6 @@ function PokeGame() {
       try {
         const res = await axios.get(API_BASE_URL);
         setDeck(res.data.results);
-        console.log(res.data.results);
       } catch (error) {
         console.log(error);
       }
@@ -32,7 +31,7 @@ function PokeGame() {
     let randPokemon = poke_url.slice(randIdx, randIdx + 1);
     endpoints.push(randPokemon);
   }
-  console.log(endpoints);
+
   //fetch data for 5 randoms pokemon
   const grabPokemon = async () => {
     setIsLoading(true);
@@ -42,7 +41,6 @@ function PokeGame() {
           const data = response.map((p) => p.data);
           setPokemon(data);
           setIsLoading(false);
-          console.log(data);
         }
       );
     } catch (error) {
@@ -58,10 +56,10 @@ function PokeGame() {
         <Loading />
       ) : (
         <Display>
-          {pokemon.map((pm) => (
+          {pokemon.map((pm, index) => (
             <div className="items">
               <PokeCard
-                key={pm.name}
+                key={index}
                 name={pm.name}
                 experience={pm.base_experience}
                 image={pm.sprites.other["official-artwork"]["front_default"]}

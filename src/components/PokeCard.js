@@ -13,41 +13,54 @@ function PokeCard(props) {
     e.preventDefault();
     setIsFlipped(!isFlipped);
   };
+
   return (
-    <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
-      <Card onClick={handleClick}>
-        <img src={frontCard} alt="front side card"></img>
-      </Card>
+    <div>
+      <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
+        <FrontCard onClick={handleClick}>
+          <img src={frontCard} alt="front side card"></img>
+        </FrontCard>
 
-      <Card onClick={handleClick}>
-        <Name> {name}</Name>
-        <CardBackground></CardBackground>
+        <BackCard>
+          <Name> {name}</Name>
+          <CardBackground></CardBackground>
 
-        <CardImage>
-          <img src={image} alt="poke"></img>
-        </CardImage>
+          <CardImage>
+            <img src={image} alt="poke"></img>
+          </CardImage>
 
-        <Info>
-          <p>
-            Experience: <span className="item">{experience}</span>
-          </p>
-          <p>
-            Height: <span className="item">{height}</span>
-          </p>
-          <p>
-            Weight: <span className="item">{weight}</span>
-          </p>
-        </Info>
-      </Card>
-    </ReactCardFlip>
+          <Info>
+            <p>
+              Experience: <span className="item">{experience}</span>
+            </p>
+            <p>
+              Height: <span className="item">{height}</span>
+            </p>
+            <p>
+              Weight: <span className="item">{weight}</span>
+            </p>
+          </Info>
+        </BackCard>
+      </ReactCardFlip>
+    </div>
   );
 }
-const Card = styled.div`
+
+const BackCard = styled.div`
   width: 247px;
   height: 363px;
   border-radius: 18px;
   position: relative;
   background-image: url(${bgrCard});
+  transform: translateY(-700px);
+`;
+const FrontCard = styled.div`
+  width: 247px;
+  height: 363px;
+  > img {
+    width: 247px;
+    height: 363px;
+  }
 `;
 
 const Name = styled.p`
