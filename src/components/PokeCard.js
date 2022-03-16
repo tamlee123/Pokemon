@@ -1,84 +1,62 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+
 import bgrImage from "../assets/bck.png";
 import bgrCard from "../assets/bckCard.png";
 import ReactCardFlip from "react-card-flip";
 import frontCard from "../assets/frontside.png";
 
-function PokeCard(props) {
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  const { name, experience, image, height, weight } = props;
-  const handleClick = (e) => {
-    e.preventDefault();
-    setIsFlipped(!isFlipped);
-  };
-
-  return (
-    <div>
-      <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
-        <FrontCard onClick={handleClick}>
-          <img src={frontCard} alt="front side card"></img>
-        </FrontCard>
-
-        <BackCard>
-          <Name> {name}</Name>
-          <CardBackground></CardBackground>
-
-          <CardImage>
-            <img src={image} alt="poke"></img>
-          </CardImage>
-
-          <Info>
-            <p>
-              Experience: <span className="item">{experience}</span>
-            </p>
-            <p>
-              Height: <span className="item">{height}</span>
-            </p>
-            <p>
-              Weight: <span className="item">{weight}</span>
-            </p>
-          </Info>
-        </BackCard>
-      </ReactCardFlip>
-    </div>
-  );
-}
+const PokeCardContainer = styled.div`
+  width: 247px;
+  height: 363px;
+`;
 
 const BackCard = styled.div`
-  width: 247px;
   height: 363px;
   border-radius: 18px;
-  position: relative;
   background-image: url(${bgrCard});
-  transform: translateY(-700px);
-`;
-const FrontCard = styled.div`
-  width: 247px;
-  height: 363px;
-  > img {
-    width: 247px;
-    height: 363px;
+  transform: translateY(-500px);
+
+  .name {
+    padding-left: 20px;
+    padding-top: 20px;
+    font-family: Rosario;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 29px;
+    color: #573903;
+  }
+
+  .image {
+    width: 199px;
+    height: 199px;
+    padding-left: 48px;
+    position: relative;
+    > img {
+      width: 199px;
+      height: 199px;
+    }
+  }
+
+  .info {
+    margin-top : 0;
+    div {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 30px;
+      height: 23px;
+    }
   }
 `;
 
-const Name = styled.p`
-  position: absolute;
-  width: 107px;
-  height: 29px;
-  left: 29px;
-  top: 3px;
-  font-family: Rosario;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 29px;
-  color: #573903;
+const FrontCard = styled.div`
+  cursor: pointer;
 `;
+
 const CardBackground = styled.div`
   width: 205px;
-  height: 139px;
+  height: 150px;
   background: url(${bgrImage});
   mix-blend-mode: multiply;
   border: 10px solid #ffffff;
@@ -89,27 +67,49 @@ const CardBackground = styled.div`
   top: 90px;
   left: 15px;
 `;
-const CardImage = styled.div`
-  width: 199px;
-  height: 199px;
-  left: 48px;
-  top: 50px;
-  position: absolute;
-  margin: auto;
-  > img {
-    width: 199px;
-    height: 199px;
-  }
-`;
-const Info = styled.div`
-  position: absolute;
-  width: 219px;
-  height: 76px;
-  left: 18px;
-  top: 250px;
-  .item {
-    position: absolute;
-    right: 0;
-  }
-`;
+
+const PokeCard = props => {
+  const { name, experience, image, height, weight } = props;
+
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleClick = () => {
+    setIsFlipped(!isFlipped);
+  };
+
+  return (
+    <PokeCardContainer>
+      <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
+        <FrontCard onClick={handleClick}>
+          <img src={frontCard} alt="front side card" />
+        </FrontCard>
+
+        <BackCard>
+          <p className="name">{name}</p>
+          <CardBackground />
+
+          <div className="image">
+            <img src={image} alt={name} />
+          </div>
+
+          <div className="info">
+            <div>
+              <p>Experience</p>
+              <p>{experience}</p>
+            </div>
+            <div>
+              <p>Height</p>
+              <p>{height}</p>
+            </div>
+            <div>
+              <p>Weight</p>
+              <p>{weight}</p>
+            </div>
+          </div>
+        </BackCard>
+      </ReactCardFlip>
+    </PokeCardContainer>
+  );
+};
+
 export default PokeCard;
