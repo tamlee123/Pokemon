@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-// import { Spinrilla } from "@styled-icons/simple-icons/Spinrilla";
 import { Spinner6 } from "@styled-icons/icomoon/Spinner6";
 
 const Spin = styled(Spinner6)`
