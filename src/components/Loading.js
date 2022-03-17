@@ -6,9 +6,11 @@ const Spin = styled(Spinner6)`
   width: 40px;
   height: 40px;
 `;
+
 const LoadingMessage = styled.p`
   color: green;
 `;
+
 function Loading(props) {
   return (
     <LoadingMessage>
