@@ -58,8 +58,11 @@ const PokeGame = () => {
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
-        const res = await axios.get(API_BASE_URL);
-        setEndpoints(res.data.results);
+        const {
+          data: { results },
+        } = await axios.get(API_BASE_URL);
+        const pokemonUrlList = results.map((m) => m.url);
+        setEndpoints(pokemonUrlList);
       } catch (error) {
         console.log(error);
       }
@@ -67,26 +70,19 @@ const PokeGame = () => {
     fetchPokemons();
   }, []);
 
-  let deck = [];
-  let pokemonUrlList = endpoints.map((m) => m.url);
-  while (deck.length < 4) {
-    //pick 5 random urls in the 500
-    let randIdx = Math.floor(Math.random() * pokemonUrlList.length);
-    let randPokmon = pokemonUrlList.slice(randIdx + 1);
-    deck.push(randPokmon);
-  }
-
-  //fetch data for 5 randoms pokemon
   const grabPokemon = async () => {
     setIsLoading(true);
+    const shuffleAndPluckFive = endpoints
+      .sort(() => Math.random() - 0.5)
+      .splice(0, 5);
     try {
-      await Promise.all(deck.map((endpoint) => axios.get(endpoint))).then(
-        (response) => {
-          const data = response.map((p) => p.data);
-          setPokemons(data);
-          setIsLoading(false);
-        }
-      );
+      await Promise.all(
+        shuffleAndPluckFive.map((endpoint) => axios.get(endpoint))
+      ).then((response) => {
+        const data = response.map((p) => p.data);
+        setPokemons(data);
+        setIsLoading(false);
+      });
     } catch (error) {
       console.log(error);
       setIsLoading(false);
