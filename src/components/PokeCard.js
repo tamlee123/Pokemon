@@ -40,7 +40,7 @@ const BackCard = styled.div`
   }
 
   .info {
-    margin-top : 0;
+    margin-top: 0;
     div {
       display: flex;
       justify-content: space-between;
@@ -68,7 +68,7 @@ const CardBackground = styled.div`
   left: 15px;
 `;
 
-const PokeCard = props => {
+const PokeCard = (props) => {
   const { name, experience, image, height, weight } = props;
 
   const [isFlipped, setIsFlipped] = useState(false);

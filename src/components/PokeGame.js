@@ -9,7 +9,9 @@ const Deck = styled.div`
   margin: 100px;
   padding: 20px;
   border: 1px solid green;
-
+  @media (max-width: 1700px) {
+    border: none;
+  }
   .deck-button {
     padding: 30px 0;
     display: flex;
@@ -29,6 +31,9 @@ const Display = styled.div`
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.45));
     .item {
       margin: 24px;
+    }
+    @media (max-width: 1400px) {
+      flex-direction: column;
     }
   }
 `;
