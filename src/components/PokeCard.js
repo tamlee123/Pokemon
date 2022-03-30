@@ -16,6 +16,9 @@ const BackCard = styled.div`
   border-radius: 18px;
   background-image: url(${bgrCard});
   transform: translateY(-500px);
+  @media (max-width: 1400px) {
+    transform: none;
+  }
 
   .name {
     padding-left: 20px;

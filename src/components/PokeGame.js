@@ -23,6 +23,9 @@ const Display = styled.div`
   padding-top: 500px;
   display: flex;
   justify-content: center;
+  @media (max-width: 1400px) {
+    padding-top: 100px;
+  }
   ul {
     padding-inline-start: 0px;
     list-style-type: none;
